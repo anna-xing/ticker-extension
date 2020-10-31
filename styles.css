@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:500,600,700,800");
+
+body {
+	font-family: Inter, Helvetica;
+	padding: 0 1em 1em;
+	width: 22em;
+	display: block;
+	font-weight: 500;
+}
+
+/* STOCK ID BAR */
+
+#stock-id {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+#stock-name {
+	font-weight: 800;
+	font-size: 12pt;
+}
+
+.subheader {
+	font-weight: 500;
+	font-size: 10pt;
+	align-self: baseline;
+}
+
+.right-align {
+	display: flex;
+}
+
+#exchange::after {
+	content: ": ";
+	font-size: 12pt;
+	white-space: pre;
+}
+
+/* MAIN INFO */
+
+#current-price {
+	font-size: 18pt;
+	font-weight: 800;
+	margin: .4em 0 0;
+	line-height: .4em;
+}
+
+#change {
+	display: flex;
+	font-size: 10pt;
+	font-weight: 600;
+}
+
+#change.increase > #currency-change::before { content: "+"; }
+#change.decrease > #currency-change::before { content: "-"; }
+
+#percent-change::before { content: " ("; white-space: pre; }
+#percent-change::after { content: "%)"; }
+
+/* GRAPH */
+
+button.graph-mode {
+	border: none;
+	padding: .5em;
+	background-color: white;
+	border-bottom: 4px solid white;
+	color: #00db93;
+	font-weight: 600;
+}
+
+button.graph-mode:hover {
+	cursor: pointer;
+	border-bottom: 4px solid #00e096;
+
+}
+
+button.graph-mode:focus {
+	outline: none;
+}
+
+button.graph-mode.active {
+	border-bottom: 4px solid #00e096;
+	color: black;
+}
+
+/* INFO */
+
+table {
+	width: 100%;
+	margin: 1em 0 0;
+}
+
+th {
+	text-align: left;
+	padding-top: 1em;
+	font-size: 10pt;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+td {
+	text-align: left;
+	font-size: 12pt;
+}
+
+th.day::before { content: "DAY "; white-space: pre; }
+th.week::before { content: "WEEK "; white-space: pre; }
+th.month::before { content: "MONTH "; white-space: pre; }
+th.year::before { content: "52 WEEK "; white-space: pre; }
+th.all-time::before { content: "ALL-TIME "; white-space: pre; }
+
+/* CURRENCIES & SYMBOLS */
+
+.usd::before, .cad::before { content: "$"; }
+.rmb::before, .yen::before { content: "¥"; }
+.pounds::before { content: "£"; }
+.percent::after { content: "%"; }
+

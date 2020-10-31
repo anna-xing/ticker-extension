@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<div id="stock-id">
+			<h1 id="stock-name">Dunder Mifflin Inc</h1>
+			<div class="right-align">
+				<h2 id="exchange" class="subheader">NYSE</h2>
+				<h2 id="ticker" class="subheader">DMI</h2>
+			</div>
+		</div>
+		<div id="main-info">
+			<p id="current-price" class="usd">177.03</p>
+			<div id="change" class="increase">
+				<p id="currency-change" class="subtext usd">7.07</p>
+				<p id="percent-change" class="subtext percent">4.03</p>
+			</div>
+		</div>
+		<div id="graph-container">
+			<div id="graph"></div>
+			<div id="graph-modes">
+				<button class="graph-mode active">1D</button>
+				<button class="graph-mode">1W</button>
+				<button class="graph-mode">1M</button>
+				<button class="graph-mode">1Y</button>
+				<button class="graph-mode">5Y</button>
+			</div>
+		</div>
+		<table id="info">
+			<tr id="range-headers">
+				<th class="year">High</th>
+				<th class="year">Low</th>
+			</tr>
+			<tr id="range">
+				<td id="high" class="usd">203.47</td>
+				<td id="low" class="usd">130.23</td>
+			</tr>
+			<tr id="volume-headers">
+				<th>Volume Today</th>
+				<th>Avg Volume</th>
+			</tr>
+			<tr id="volume">
+				<td id="day-volume">3.21M</td>
+				<td id="avg-volume">5.42M</td>
+			</tr>
+			<tr id="misc-headers">
+				<th>P/E Ratio</th>
+				<th>Market Cap</th>
+			</tr>
+			<tr id="misc">
+				<td id="pe-ratio">17.1</td>
+				<td id="market-cap">724M</td>
+			</tr>
+		</table>
+
+		<script src="popup.js"></script>
+	</body>
+</html>
+
