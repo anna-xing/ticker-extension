@@ -1,10 +1,11 @@
 {
 	"name": "Ticker Extension",
 	"version": "1.0",
-	"description": "Displays stock info for the highlighted ticker symbol.",
+	"description": "Displays stock information for the highlighted ticker symbol.",
 	"permissions": [
 		"activeTab",
-		"storage"
+		"storage",
+		"tabs"
 	],
 	"icons": {
 		"16": "assets/icon.png",
@@ -13,12 +14,10 @@
 		"128": "assets/icon.png"
 	},
 	"background": {
-		"scripts": [
-			"background.js"
-		],
-		"persistent": false
+		"scripts": ["background.js"],
+		"persistent": true
 	},
-	"page_action": {
+	"browser_action": {
 		"default_popup": "popup.html",
 		"default_icon": {
 			"16": "assets/icon.png",
@@ -27,6 +26,11 @@
 			"128": "assets/icon.png"
 		}
 	},
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["highlight.js"],
+		"run_at": "document_start"
+	}],
 	"options_page": "options.html",
 	"manifest_version": 2
 }
