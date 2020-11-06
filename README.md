@@ -16,3 +16,4 @@ Options to implement in options.html:
 * High + low display (day, week, month, year, 5-year, all-time)
 * Absolute + percent change (day, week, month)
 
+Note to self: snake_case for JS, dash-case for HTML
