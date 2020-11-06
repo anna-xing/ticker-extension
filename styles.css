@@ -8,12 +8,14 @@ body {
 	font-weight: 500;
 }
 
-body.no-stock-found { padding: .2em 1em .5em; }
-body.no-stock-found p { font-size: 10pt; }
+#no-stock-found { 
+	font-size: 10pt;
+	padding: .1em;
+}
 
-body > div { display: none; }
-.stock-found > #stock-found { display: block; }
-.no-stock-found > #no-stock-found { display: block; }
+.hidden {
+	display: none;
+}
 
 /* STOCK ID BAR */
 
