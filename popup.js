@@ -1,24 +1,31 @@
 // Prompt highlight.js content script to get ticker from page
-chrome.runtime.sendMessage({cmd: 'get_ticker'}, (response) => {
-	if (response && response.status === 'done') {
-		console.log("Highlight script finished processing.");
 
-		// Prompt background script to get stock information from ticker
-		chrome.runtime.sendMessage({
-			cmd: 'get_info', 
-			ticker: response.ticker
-		}, (response) => {
-			if (response && response.status === 'done') {
-				console.log("Background script finished processing.");
-				receiveStockInfo(response.info);
-			}
-		});
-	}
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { cmd: 'getTicker' }, (response) => {
+        if (response.status === 'done') {
+			console.log("Highlight script finished processing.");
+			console.log("Ticker is: " + response.ticker);
+
+            // Prompt background script to get stock information from ticker
+            chrome.runtime.sendMessage(
+                {
+                    cmd: 'getInfo',
+                    ticker: response.ticker
+                },
+                (response) => {
+                    if (response.status === 'done') {
+                        console.log("Background script finished processing.");
+                        receiveStockInfo(response.info);
+                    }
+                }
+            );
+        }
+    });
 });
 
 // Update popup fields with stock information
-function receiveStockInfo(info) {
-	console.log('Received ticker: ' + info); // testing line
+function receiveStockInfo(ticker) {
+    console.log("Received ticker: " + ticker); // testing line
 }
 
 /*
@@ -36,4 +43,3 @@ function receiveStockInfo(info) {
 	}
 });
 */
-
