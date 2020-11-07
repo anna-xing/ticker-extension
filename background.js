@@ -1,16 +1,16 @@
 chrome.runtime.onInstalled.addListener(() => {
-	console.log("Extension installed.");
+    console.log("Extension installed.");
 });
 
 // Sends response as object with all stock information, or false if none exists
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	if (request.cmd === 'get_info') {
-		// Check for ticker validity (NYSE dictates 16-char max)
-		let ticker = request.ticker.split(' ')[0].slice(0, 16);
-		if (request.ticker === '' || ticker != request.ticker) {
-			// Nothing highlighted
-			sendResponse({status: 'done', info: ''});
-		} else {
+    if (request.cmd === "get_info") {
+        // Check for ticker validity (NYSE dictates 16-char max)
+        let ticker = request.ticker.split(" ")[0].slice(0, 16);
+        if (request.ticker === "" || ticker != request.ticker) {
+            // Nothing highlighted
+            sendResponse({ status: "done", stocks: [] });
+        } else {
 			// TESTING VALUES
 			let stock_name="Test Stock"
 			let exchange="EXCH"
@@ -24,39 +24,46 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			let pe_ratio=34.2
 			let market_cap=234
 
-			// Call stock API
-			
-			// Create price graphs
+            // Call stock API
 
-			// Return information
-			sendResponse({status: 'done', info: {
-				stock_name: stock_name, 
-				exchange: exchange, 
-				ticker: ticker,
+            // If multiple stocks are possible, ask user to identify exchange
+            // For now, assume NYSE > NASDAQ > TSX
 
-				current_price: current_price,
-				currency_change: currency_change,
-				percent_change: percent_change,
+            // Create price graphs
 
-				high: high,
-				low: low,
+            // Return information
+            sendResponse({
+                status: "done",
+                stocks: [
+                    {
+                        stock_name: stock_name,
+                        exchange: exchange,
+                        ticker: ticker,
 
-				day_volume: day_volume,
-				avg_volume: avg_volume,
+                        current_price: current_price,
+                        currency_change: currency_change,
+                        percent_change: percent_change,
 
-				pe_ratio: pe_ratio,
-				market_cap: market_cap,
+                        high: high,
+                        low: low,
 
-				/*day_graph: day_graph,
-				week_graph: week_graph,
-				month_graph: month_graph,
-				year_graph: year_graph,
-				fiveyear_graph: fiveyear_graph*/
-			}});
-		}
+                        day_volume: day_volume,
+                        avg_volume: avg_volume,
 
-		sendResponse({status: 'done', info: request.ticker}); // testing line
-	}
-	return true;
+                        pe_ratio: pe_ratio,
+                        market_cap: market_cap,
+
+						/*
+						day_graph: day_graph,
+						week_graph: week_graph,
+						month_graph: month_graph,
+						year_graph: year_graph,
+						fiveyear_graph: fiveyear_graph
+						*/
+                    },
+                ],
+            });
+        }
+    }
+    return true;
 });
-
