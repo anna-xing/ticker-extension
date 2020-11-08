@@ -14,9 +14,9 @@
 			</div>
 			<div id="main-info">
 				<p id="current-price" class="usd"></p>
-				<div id="change" class="increase">
+				<div id="change">
 					<p id="currency-change" class="subtext usd"></p>
-					<p id="percent-change" class="subtext percent"></p>
+					<p id="percent-change" class="subtext"></p>
 				</div>
 			</div>
 			<div id="graph-container">
@@ -38,19 +38,19 @@
 					<td id="high" class="usd"></td>
 					<td id="low" class="usd"></td>
 				</tr>
-				<tr id="volume-headers">
-					<th>Volume Today</th>
-					<th>Avg Volume</th>
+				<tr>
+					<th>Daily Volume</th>
+					<th>Dividend Yield</th>
 				</tr>
-				<tr id="volume">
+				<tr>
 					<td id="day-volume"></td>
-					<td id="avg-volume"></td>
+					<td id="div-yield" class="percent"></td>
 				</tr>
-				<tr id="misc-headers">
+				<tr>
 					<th>P/E Ratio</th>
 					<th>Market Cap</th>
 				</tr>
-				<tr id="misc">
+				<tr>
 					<td id="pe-ratio"></td>
 					<td id="market-cap" class="usd"></td>
 				</tr>
@@ -62,6 +62,7 @@
 			   extension to view stock information.</p>
 		</div>
 
+		<script src="keys.js"></script>
 		<script src="popup.js"></script>
 	</body>
 </html>

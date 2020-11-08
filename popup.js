@@ -16,12 +16,11 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             console.log("Highlight script finished processing.");
 
             // Prompt background script to get stock information from ticker
-            chrome.runtime.sendMessage(
-                {
+            chrome.runtime.sendMessage({
                     cmd: "get_info",
-                    ticker: response.ticker,
-                },
-                (response) => {
+					ticker: response.ticker,
+					api_key: ALPHAVANTAGE_API_KEY
+                }, (response) => {
                     if (response.status === "done") {
                         console.log("Background script finished processing.");
                         update_stock_info(response.stocks);
@@ -64,7 +63,7 @@ function update_stock_info(stocks) {
                 "high",
                 "low",
                 "day_volume",
-                "avg_volume",
+                "div_yield",
                 "pe_ratio",
                 "market_cap",
             ];

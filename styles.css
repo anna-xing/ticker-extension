@@ -61,11 +61,8 @@ body {
 	font-weight: 600;
 }
 
-#change.increase > #currency-change::before { content: "+"; }
-#change.decrease > #currency-change::before { content: "-"; }
-
 #percent-change::before { content: " ("; white-space: pre; }
-#percent-change::after { content: "%)"; }
+#percent-change::after { content: ")"; }
 
 /* GRAPH */
 
