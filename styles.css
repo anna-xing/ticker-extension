@@ -70,6 +70,9 @@ body {
 
 /* GRAPH */
 
+canvas:not(.active) { display: none !important; }
+canvas.active { display: block; }
+
 button.graph-mode {
 	border: none;
 	padding: .5em;

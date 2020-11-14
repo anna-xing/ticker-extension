@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="styles.css">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
 	</head>
 	<body> 
 		<div id="loading">
@@ -23,13 +24,19 @@
 				</div>
 			</div>
 			<div id="graph-container">
-				<div id="graph"></div>
+				<div id="graph">
+					<canvas id="graph-d" class="active"></canvas>
+					<canvas id="graph-w"></canvas>
+					<canvas id="graph-m"></canvas>
+					<canvas id="graph-y"></canvas>
+					<canvas id="graph-5y"></canvas>
+				</div>
 				<div id="graph-modes">
-					<button class="graph-mode active">1D</button>
-					<button class="graph-mode">1W</button>
-					<button class="graph-mode">1M</button>
-					<button class="graph-mode">1Y</button>
-					<button class="graph-mode">5Y</button>
+					<button id="graph-d-btn" class="graph-mode active">1D</button>
+					<button id="graph-w-btn" class="graph-mode">1W</button>
+					<button id="graph-m-btn" class="graph-mode">1M</button>
+					<button id="graph-y-btn" class="graph-mode">1Y</button>
+					<button id="graph-5y-btn" class="graph-mode">5Y</button>
 				</div>
 			</div>
 			<table id="info">
@@ -65,8 +72,8 @@
 			   extension to view stock information.</p>
 		</div>
 
-		<script src="keys.js"></script>
-		<script src="popup.js"></script>
+		<script type="text/javascript" src="keys.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
 	</body>
 </html>
 

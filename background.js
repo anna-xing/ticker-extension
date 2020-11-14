@@ -22,22 +22,22 @@ async function get_info(request, send_response) {
         // Nothing highlighted
         respond();
     } else {
-        let APIKEY = request.api_key;
         let stocks = [];
-        let overview;
-		let global_quote;
+        let APIKEY = request.api_key;
     
         // TESTING VALUES
-        /*
         ticker = 'IBM'; 
         APIKEY = 'demokey';
-        */
+
+        let overview;
         await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEY)
 			.then((result) => result.json())
             .then((result) => {
 				overview = result;
 				console.log("Fetching overview succeeded.");
-			});
+            });
+            
+        let global_quote;
         await fetch("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=" + APIKEY)
             .then((result) => result.json())
             .then((result) => {
@@ -55,6 +55,35 @@ async function get_info(request, send_response) {
 			return;
         }
 
+        // Create graphs - https://www.chartjs.org/docs/latest/charts/line.html#point
+        let graph_d_pts = [];
+        let graph_w_pts = [];
+        let graph_m_pts = [];
+        let graph_y_pts = [];
+        let graph_5y_pts = [];
+
+        // Intraday graph
+        fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&apikey=" + APIKEY)
+            .then((result) => result.json())
+            .then((result) => {
+                let time_series = result["Time Series (5min)"];
+                for (let time in time_series) {
+                    graph_d_pts.push({
+                        x: time.split(' ')[1],
+                        y: time_series[time]["4. close"]
+                    });
+                }
+                console.log("Fetching intraday time series succeeded.");
+            });
+
+        // Week graph
+        
+        // Month graph
+
+        // Year graph
+
+        // 5 year graph
+        
         let stock_name = overview["Name"];
         let exchange = overview["Exchange"];
 
@@ -70,6 +99,9 @@ async function get_info(request, send_response) {
         let pe_ratio = overview["PERatio"];
         let market_cap = overview["MarketCapitalization"];
 
+        // If multiple stocks are possible, ask user to identify exchange
+        // For now, assume NYSE > NASDAQ > TSX
+
         stocks.push({
             stock_name: stock_name,
             exchange: exchange,
@@ -84,26 +116,12 @@ async function get_info(request, send_response) {
             pe_ratio: pe_ratio,
             market_cap: market_cap,
 
-            /*
-			day_graph: day_graph,
-			week_graph: week_graph,
-			month_graph: month_graph,
-			year_graph: year_graph,
-			fiveyear_graph: fiveyear_graph
-			*/
+            graph_d_pts: graph_d_pts,
+			graph_w_pts: graph_w_pts,
+			graph_m_pts: graph_m_pts,
+			graph_y_pts: graph_y_pts,
+			graph_5y_pts: graph_5y_pts
         });
-
-        // If multiple stocks are possible, ask user to identify exchange
-        // For now, assume NYSE > NASDAQ > TSX
-
-        // Create price graphs
-        /*
-		let day_graph = make_graph(...);
-		let week_graph = make_graph(...);
-		let month_graph = make_graph(...);
-		let year_graph = make_graph(...);
-		let fiveyear_graph = make_graph(...);
-		*/
 
         // Return information
         send_response({
@@ -111,8 +129,4 @@ async function get_info(request, send_response) {
             stocks: stocks,
         });
     }
-}
-
-function make_graph(title, xlabel, ylabel, data) {
-    console.log("make_graph testing");
 }

@@ -1,10 +1,14 @@
-// Attach event listeners to graph mode buttons
+// Attach event listeners to graph buttons
 let graph_modes = document.querySelectorAll(".graph-mode");
 graph_modes.forEach((graph_mode) => {
     graph_mode.addEventListener("click", () => {
         if (!graph_mode.classList.contains("active")) {
             document.querySelector(".graph-mode.active").classList.remove("active");
             graph_mode.classList.add("active");
+
+            let active_id = graph_mode.getAttribute("id").split("-").slice(0, -1).join('-');
+            document.querySelector("canvas.active").classList.remove("active");
+            document.querySelector("canvas#" + active_id).classList.add("active");
         }
     });
 });
@@ -56,8 +60,9 @@ function update_stock_info(stocks) {
             // Stock found
             stock_found.classList.remove("hidden");
             no_stock_found.classList.add("hidden");
-
             let info = stocks[0];
+
+            // Update text fields
             const info_list = [
                 "stock_name",
                 "exchange",
@@ -81,6 +86,24 @@ function update_stock_info(stocks) {
                 }
                 window[dom_id].innerHTML = format_val(info[field], field);
             }
+
+            // Update graphs
+            const graph_list = [
+                "graph_d",
+                "graph_w",
+                "graph_m",
+                "graph_y",
+                "graph_5y"
+            ];
+            for (graph_type of graph_list) {
+                let dom_id = graph_type.split("_").join("-");
+                let new_graph = new Chart(dom_id, {
+                    type: 'line',
+                    data: info[graph_type + "_pts"]
+                });
+                window[dom_id] = new_graph;
+            }
+
             console.log("Extension display updated.");
             break;
         default:
