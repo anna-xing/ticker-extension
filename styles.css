@@ -8,14 +8,17 @@ body {
 	font-weight: 500;
 }
 
-#no-stock-found { 
+#no-stock-found, #loading { 
 	font-size: 10pt;
-	padding: .1em;
+	padding-top: .2em;
 }
 
 .hidden {
 	display: none;
 }
+
+.none::after, .none::before { content: "" !important; }
+.none { color: rgb(173, 173, 173); }
 
 /* STOCK ID BAR */
 
@@ -38,6 +41,7 @@ body {
 
 .right-align {
 	display: flex;
+	margin-left: 1em;
 }
 
 #exchange::after {
@@ -62,7 +66,7 @@ body {
 }
 
 #percent-change::before { content: " ("; white-space: pre; }
-#percent-change::after { content: ")"; }
+#percent-change::after { content: "%)"; }
 
 /* GRAPH */
 
@@ -122,4 +126,3 @@ th.all-time::before { content: "ALL-TIME "; white-space: pre; }
 .rmb::before, .yen::before { content: "¥"; }
 .pounds::before { content: "£"; }
 .percent::after { content: "%"; }
-

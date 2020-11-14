@@ -26,7 +26,12 @@ async function get_info(request, send_response) {
         let stocks = [];
         let overview;
 		let global_quote;
-		
+    
+        // TESTING VALUES
+        /*
+        ticker = 'IBM'; 
+        APIKEY = 'demokey';
+        */
         await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEY)
 			.then((result) => result.json())
             .then((result) => {
@@ -37,14 +42,18 @@ async function get_info(request, send_response) {
             .then((result) => result.json())
             .then((result) => {
 				global_quote = result['Global Quote'];
-				console.log("Fetching global quote succeeded.");
+                console.log("Fetching global quote succeeded.");
 			});
 
-		if (overview === {} || global_quote === {}) {
+        if (!overview || !global_quote) {
+            send_response({ status: "overload", stocks: stocks });
+            console.log("No data was returned. The API has been called too frequently.")
+            return;
+        } else if (Object.keys(overview).length === 0 || Object.keys(global_quote).length === 0) {
 			respond();
 			console.log("No data was found.")
 			return;
-		}
+        }
 
         let stock_name = overview["Name"];
         let exchange = overview["Exchange"];

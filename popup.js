@@ -9,6 +9,9 @@ graph_modes.forEach((graph_mode) => {
     });
 });
 
+let loading = document.querySelector("#loading");
+loading.classList.remove("hidden");
+
 // Prompt highlight.js content script to get ticker from page
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { cmd: "get_ticker" }, (response) => {
@@ -24,6 +27,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     if (response.status === "done") {
                         console.log("Background script finished processing.");
                         update_stock_info(response.stocks);
+                    } else if (response.status === "overload") {
+                        console.log("Background script has returned: The API has been called too frequently.");
                     }
                 }
             );
@@ -37,12 +42,12 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 function update_stock_info(stocks) {
     stock_found = document.querySelector("#stock-found");
     no_stock_found = document.querySelector("#no-stock-found");
+    loading.classList.add("hidden");
 
     switch (stocks.length) {
         case 0:
             // No stock found
-            if (!stock_found.classList.contains("hidden")) {
-                stock_found.classList.add("hidden");
+            if (no_stock_found.classList.contains("hidden")) {
                 no_stock_found.classList.remove("hidden");
             }
             console.log("No stock found.");
@@ -69,7 +74,12 @@ function update_stock_info(stocks) {
             ];
             for (field of info_list) {
                 let dom_id = field.split("_").join("-");
-                window[dom_id].innerHTML = info[field];
+                if (!info[field] || info[field] === 'None') {
+                    window[dom_id].classList.add("none");
+                } else {
+                    window[dom_id].classList.remove("none");
+                }
+                window[dom_id].innerHTML = format_val(info[field], field);
             }
             console.log("Extension display updated.");
             break;
@@ -84,4 +94,29 @@ function update_stock_info(stocks) {
 function choose_exchange(stocks) {
     console.log("choose_exchange testing");
     update_stock_info([stocks[0]]); // For testing, display first option
+}
+
+// Format a returned value (str) based on its type (str)
+function format_val(val, type) {
+    if (val === "None" || !parseFloat(val)) return val;
+
+    val = parseFloat(val);
+    let dec2 = [
+        "current_price", 
+        "currency_change", 
+        "percent_change",
+        "high",
+        "low",
+        "div_yield",
+        "pe_ratio"
+    ];
+    let large = ["day_volume", "market_cap"];
+
+    if (dec2.includes(type)) return parseFloat(val).toFixed(2).toString();
+    if (large.includes(type)) {
+        if (val > 999999999) return (val / 1000000000).toFixed(2).toString() + ' B';
+        if (val > 999999) return (val / 1000000).toFixed(2).toString() + ' M';
+        if (val > 999) return val.toString().slice(0, -3) + ',' + val.toString().slice(-3,);
+        return val;
+    }
 }
