@@ -10,6 +10,13 @@ A Google Chrome extension which displays stock information about a highlighted t
 
 # WIP Notes
 
+Todo:
+
+* Figure out why rendered chart isn't showing data points.
+* Fix P/E ratio issue where it becomes -9999.9...
+* Add view for indicating that API has been called too much.
+* Add support for ETFs (overview returns info but not global_quote) — look into using IEX API?
+
 Options to implement in options.html:
 
 * Currency display
