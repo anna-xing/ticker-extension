@@ -42,6 +42,7 @@ body {
 .right-align {
 	display: flex;
 	margin-left: 1em;
+	min-width: fit-content;
 }
 
 #exchange::after {
