@@ -26,8 +26,10 @@ async function get_info(request, send_response) {
         let APIKEY = request.api_key;
     
         // TESTING VALUES
+        /*
         ticker = 'IBM'; 
         APIKEY = 'demokey';
+        */
 
         let overview;
         await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEY)
@@ -89,7 +91,7 @@ async function get_info(request, send_response) {
 
         let current_price = global_quote["05. price"];
         let currency_change = global_quote["09. change"];
-        let percent_change = global_quote["10. change percent"];
+        let percent_change = global_quote["10. change percent"].replace('%', '');
 
         let high = overview["52WeekHigh"];
         let low = overview["52WeekLow"];

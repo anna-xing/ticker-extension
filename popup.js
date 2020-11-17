@@ -13,9 +13,6 @@ graph_modes.forEach((graph_mode) => {
     });
 });
 
-let loading = document.querySelector("#loading");
-loading.classList.remove("hidden");
-
 // Prompt highlight.js content script to get ticker from page
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { cmd: "get_ticker" }, (response) => {
@@ -28,11 +25,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 					ticker: response.ticker,
 					api_key: ALPHAVANTAGE_API_KEY
                 }, (response) => {
+                    document.querySelector("#loading").classList.add("hidden");
                     if (response.status === "done") {
                         console.log("Background script finished processing.");
                         update_stock_info(response.stocks);
                     } else if (response.status === "overload") {
                         console.log("Background script has returned: The API has been called too frequently.");
+                        document.querySelector("#overload").classList.remove("hidden");
                     }
                 }
             );
@@ -44,9 +43,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 // Delegate to update_choose_exchange if multiple stocks are provided
 // list stocks: List of stock info objects, each containing respective stock info
 function update_stock_info(stocks) {
-    stock_found = document.querySelector("#stock-found");
-    no_stock_found = document.querySelector("#no-stock-found");
-    loading.classList.add("hidden");
+    let stock_found = document.querySelector("#stock-found");
+    let no_stock_found = document.querySelector("#no-stock-found");
 
     switch (stocks.length) {
         case 0:
@@ -112,13 +110,6 @@ function update_stock_info(stocks) {
     }
 }
 
-// Update popup to ask for intended exchange
-// list stocks: List of stock info objects
-function choose_exchange(stocks) {
-    console.log("choose_exchange testing");
-    update_stock_info([stocks[0]]); // For testing, display first option
-}
-
 // Format a returned value (str) based on its type (str)
 function format_val(val, type) {
     if (val === "None" || !parseFloat(val)) return val;
@@ -142,4 +133,11 @@ function format_val(val, type) {
         if (val > 999) return val.toString().slice(0, -3) + ',' + val.toString().slice(-3,);
         return val;
     }
+}
+
+// Update popup to ask for intended exchange
+// list stocks: List of stock info objects
+function choose_exchange(stocks) {
+    console.log("choose_exchange testing");
+    update_stock_info([stocks[0]]); // For testing, display first option
 }
