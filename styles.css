@@ -22,6 +22,10 @@ body {
 
 /* STOCK ID BAR */
 
+a {
+	color: black;
+}
+
 #stock-id {
 	display: flex;
 	justify-content: space-between;

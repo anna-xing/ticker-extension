@@ -62,7 +62,6 @@ function update_stock_info(stocks) {
 
             // Update text fields
             const info_list = [
-                "stock_name",
                 "exchange",
                 "ticker",
                 "current_price",
@@ -84,6 +83,12 @@ function update_stock_info(stocks) {
                 }
                 window[dom_id].innerHTML = format_val(info[field], field);
             }
+            // Link stock name to Yahoo Finance
+            let name = document.createElement('a');
+            name.href = new URL("https://finance.yahoo.com/quote/" + info['ticker']);
+            name.target = '_blank';
+            name.innerText = info['stock_name'];
+            window['stock-name'].appendChild(name);
 
             // Update graphs
             const graph_list = [
