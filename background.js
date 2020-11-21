@@ -23,7 +23,7 @@ async function get_info(request, send_response) {
         respond();
     } else {
         let stocks = [];
-        let APIKEY = request.api_key;
+        let APIKEYS = request.api_keys;
     
         // TESTING VALUES
         /*
@@ -32,7 +32,7 @@ async function get_info(request, send_response) {
         */
 
         let overview;
-        await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEY)
+        await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEYS[0])
 			.then((result) => result.json())
             .then((result) => {
 				overview = result;
@@ -40,7 +40,7 @@ async function get_info(request, send_response) {
             });
             
         let global_quote;
-        await fetch("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=" + APIKEY)
+        await fetch("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=" + APIKEYS[0])
             .then((result) => result.json())
             .then((result) => {
 				global_quote = result['Global Quote'];
@@ -57,34 +57,24 @@ async function get_info(request, send_response) {
 			return;
         }
 
-        // Create graphs - https://www.chartjs.org/docs/latest/charts/line.html#point
-        let graph_d_pts = [];
+        // Get data for graphs 
         let graph_w_pts = [];
         let graph_m_pts = [];
-        let graph_y_pts = [];
-        let graph_5y_pts = [];
 
-        // Intraday graph
-        fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&apikey=" + APIKEY)
+        // TODO: this returns a csv. need to find way to convert to json.
+        // TODO: organize + push appropriate data for both week and month graphs.
+        await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
             .then((result) => result.json())
             .then((result) => {
-                let time_series = result["Time Series (5min)"];
+                console.log(result)
                 for (let time in time_series) {
-                    graph_d_pts.push({
-                        x: time.split(' ')[1],
+                    graph_w_pts.push({
+                        x: time,
                         y: time_series[time]["4. close"]
                     });
                 }
                 console.log("Fetching intraday time series succeeded.");
             });
-
-        // Week graph
-        
-        // Month graph
-
-        // Year graph
-
-        // 5 year graph
         
         let stock_name = overview["Name"];
         let exchange = overview["Exchange"];
@@ -118,11 +108,8 @@ async function get_info(request, send_response) {
             pe_ratio: pe_ratio,
             market_cap: market_cap,
 
-            graph_d_pts: graph_d_pts,
 			graph_w_pts: graph_w_pts,
-			graph_m_pts: graph_m_pts,
-			graph_y_pts: graph_y_pts,
-			graph_5y_pts: graph_5y_pts
+			graph_m_pts: graph_m_pts
         });
 
         // Return information

@@ -23,7 +23,11 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             chrome.runtime.sendMessage({
                     cmd: "get_info",
 					ticker: response.ticker,
-					api_key: ALPHAVANTAGE_API_KEY
+					api_keys: [
+                        ALPHAVANTAGE_API_KEY_1,
+                        ALPHAVANTAGE_API_KEY_2,
+                        ALPHAVANTAGE_API_KEY_3
+                    ]
                 }, (response) => {
                     document.querySelector("#loading").classList.add("hidden");
                     if (response.status === "done") {
@@ -92,21 +96,27 @@ function update_stock_info(stocks) {
 
             // Update graphs
             const graph_list = [
-                "graph_d",
                 "graph_w",
-                "graph_m",
-                "graph_y",
-                "graph_5y"
+                "graph_m"
             ];
             for (graph_type of graph_list) {
                 let dom_id = graph_type.split("_").join("-");
                 let new_graph = new Chart(dom_id, {
-                    type: 'line',
-                    data: info[graph_type + "_pts"]
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            data: info[graph_type + "_pts"],
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        }
+                    }
                 });
+                console.log(info[graph_type + "_pts"])
                 window[dom_id] = new_graph;
             }
-
             console.log("Extension display updated.");
             break;
         default:
