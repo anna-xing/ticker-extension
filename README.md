@@ -15,7 +15,6 @@ Todo:
 * Use latest price for current price info, rather than last closing price.
 * Figure out why rendered chart isn't showing data points.
 * Fix P/E ratio issue where it becomes -9999.9...
-* Add view for indicating that API has been called too much.
 * Add support for ETFs (overview returns info but not global_quote) — look into using IEX API?
 
 Options to implement in options.html:
