@@ -28,7 +28,8 @@ async function get_info(request, send_response) {
         // TESTING VALUES
         /*
         ticker = 'IBM'; 
-        APIKEY = 'demokey';
+        APIKEYS[0] = 'demokey';
+        APIKEYS[1] = 'demokey';
         */
 
         let overview;
@@ -63,10 +64,11 @@ async function get_info(request, send_response) {
 
         // TODO: this returns a csv. need to find way to convert to json.
         // TODO: organize + push appropriate data for both week and month graphs.
-        await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
+        await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
             .then((result) => result.json())
             .then((result) => {
                 console.log(result)
+                let time_series = result["Time Series (60min)"];
                 for (let time in time_series) {
                     graph_w_pts.push({
                         x: time,
