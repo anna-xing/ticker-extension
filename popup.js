@@ -38,7 +38,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     document.querySelector("#loading").classList.add("hidden");
                     if (response.status === "done") {
                         console.log("Background script finished processing.");
-                        update_stock_info(response.stocks);
+                        update_stock_info(response.stock);
                     } else if (response.status === "overload") {
                         console.log(
                             "Background script has returned: The API has been called too frequently."
@@ -52,13 +52,12 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 });
 
 // Update popup fields with stock information
-// Delegate to update_choose_exchange if multiple stocks are provided
-// list stocks: List of stock info objects, each containing respective stock info
-function update_stock_info(stocks) {
+// list stock: List of stock info objects, each containing respective stock info
+function update_stock_info(stock) {
     let stock_found = document.querySelector("#stock-found");
     let no_stock_found = document.querySelector("#no-stock-found");
 
-    if (!stocks.length) {
+    if (!stock) {
         // No stock found
         if (no_stock_found.classList.contains("hidden")) {
             no_stock_found.classList.remove("hidden");
@@ -68,7 +67,6 @@ function update_stock_info(stocks) {
         // Stock found
         stock_found.classList.remove("hidden");
         no_stock_found.classList.add("hidden");
-        let info = stocks[0];
 
         // Update text fields
         const info_list = [
@@ -86,18 +84,18 @@ function update_stock_info(stocks) {
         ];
         for (field of info_list) {
             let dom_id = field.split("_").join("-");
-            if (!info[field] || info[field] === "None") {
+            if (!stock[field] || stock[field] === "None") {
                 window[dom_id].classList.add("none");
             } else {
                 window[dom_id].classList.remove("none");
             }
-            window[dom_id].innerHTML = format_val(info[field], field);
+            window[dom_id].innerHTML = format_val(stock[field], field);
         }
         // Link stock name to Yahoo Finance
         let name = document.createElement("a");
-        name.href = new URL("https://finance.yahoo.com/quote/" + info["ticker"]);
+        name.href = new URL("https://finance.yahoo.com/quote/" + stock["ticker"]);
         name.target = "_blank";
-        name.innerText = info["stock_name"];
+        name.innerText = stock["stock_name"];
         window["stock-name"].appendChild(name);
 
         // Update graphs
@@ -109,7 +107,7 @@ function update_stock_info(stocks) {
                 data: {
                     datasets: [
                         {
-                            data: info[graph_type + "_pts"],
+                            data: stock[graph_type + "_pts"],
                         },
                     ],
                 },
@@ -119,7 +117,7 @@ function update_stock_info(stocks) {
                     },
                 },
             });
-            console.log(info[graph_type + "_pts"]);
+            console.log(stock[graph_type + "_pts"]);
             window[dom_id] = new_graph;
         }
         console.log("Extension display updated.");

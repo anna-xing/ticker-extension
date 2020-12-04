@@ -11,9 +11,9 @@ chrome.runtime.onMessage.addListener((request, sender, send_response) => {
 });
 
 async function get_info(request, send_response) {
-	let stocks = []
+	let stock = false;
 	let respond = () => {
-		send_response({ status: "done", stocks: stocks });
+		send_response({ status: "done", stock: stock });
 	}
 
     // Check for ticker validity (NYSE dictates 16-char max)
@@ -22,7 +22,6 @@ async function get_info(request, send_response) {
         // Nothing highlighted
         respond();
     } else {
-        let stocks = [];
         let APIKEYS = request.api_keys;
     
         // TESTING VALUES
@@ -49,7 +48,7 @@ async function get_info(request, send_response) {
 			});
 
         if (!overview || !global_quote) {
-            send_response({ status: "overload", stocks: stocks });
+            send_response({ status: "overload", stock: stock });
             console.log("No data was returned. The API has been called too frequently.")
             return;
         } else if (Object.keys(overview).length === 0 || Object.keys(global_quote).length === 0) {
@@ -93,10 +92,7 @@ async function get_info(request, send_response) {
         let pe_ratio = overview["PERatio"];
         let market_cap = overview["MarketCapitalization"];
 
-        // If multiple stocks are possible, ask user to identify exchange
-        // For now, assume NYSE > NASDAQ > TSX
-
-        stocks.push({
+        stock = {
             stock_name: stock_name,
             exchange: exchange,
             ticker: ticker,
@@ -111,13 +107,9 @@ async function get_info(request, send_response) {
             market_cap: market_cap,
 
 			graph_w_pts: graph_w_pts,
-			graph_m_pts: graph_m_pts
-        });
+			graph_m_pts: graph_m_pts,
+        };
 
-        // Return information
-        send_response({
-            status: "done",
-            stocks: stocks,
-        });
+        respond();
     }
 }
