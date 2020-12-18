@@ -33,6 +33,6 @@
 	}],
 	"options_page": "options.html",
 	"manifest_version": 2,
-	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js; object-src 'self'"
+	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js; object-src 'self'"
 }
 

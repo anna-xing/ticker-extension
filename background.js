@@ -23,20 +23,13 @@ async function get_info(request, send_response) {
         respond();
     } else {
         let APIKEYS = request.api_keys;
-    
-        // TESTING VALUES
-        /*
-        ticker = 'IBM'; 
-        APIKEYS[0] = 'demokey';
-        APIKEYS[1] = 'demokey';
-        */
 
         let overview;
         await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEYS[0])
 			.then((result) => result.json())
             .then((result) => {
 				overview = result;
-				console.log("Fetching overview succeeded.");
+                console.log("Fetching overview succeeded.");
             });
             
         let global_quote;
@@ -71,6 +64,15 @@ async function get_info(request, send_response) {
                         x: datetime,
                         y: time_series[time]["4. close"]
                     });
+                }
+                // Remove points from partial earliest day if needed
+                for (let i = graph_w_pts.length - 1; i > 0; i--) {
+                    let open_time = new Date(graph_w_pts[i].getTime());
+                    open_time.setHours(10);
+                    if (graph_w_pts[i].x === open_time) {
+                        break;
+                    }
+                    graph_w_pts.pop();
                 }
                 console.log("Fetching intraday time series succeeded.");
             });

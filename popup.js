@@ -103,7 +103,7 @@ function update_stock_info(stock) {
         for (graph_type of graph_list) {
             let dom_id = graph_type.split("_").join("-");
             let new_graph = new Chart(dom_id, {
-                type: "scatter",
+                type: 'line',
                 data: {
                     datasets: [
                         {
@@ -115,6 +115,15 @@ function update_stock_info(stock) {
                     legend: {
                         display: false,
                     },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            distribution: 'series',
+                            time: {
+                                unit: 'day'
+                            }
+                        }]
+                    }
                 },
             });
             console.log(stock[graph_type + "_pts"]);
