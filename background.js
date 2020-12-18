@@ -67,7 +67,7 @@ async function get_info(request, send_response) {
                 }
                 // Remove points from partial earliest day if needed
                 for (let i = graph_w_pts.length - 1; i > 0; i--) {
-                    let open_time = new Date(graph_w_pts[i].getTime());
+                    let open_time = new Date(graph_w_pts[i].x.getTime());
                     open_time.setHours(10);
                     if (graph_w_pts[i].x === open_time) {
                         break;
