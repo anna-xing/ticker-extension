@@ -12,7 +12,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     api_keys: [
                         ALPHAVANTAGE_API_KEY_1,
                         ALPHAVANTAGE_API_KEY_2,
-                        ALPHAVANTAGE_API_KEY_3,
                     ],
                 },
                 (response) => {
