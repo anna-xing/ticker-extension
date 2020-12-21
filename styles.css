@@ -75,7 +75,7 @@ a {
 
 /* GRAPH */
 
-canvas:not(.active) { display: none !important; }
+/* canvas:not(.active) { display: none !important; }
 canvas.active { display: block; }
 
 button.graph-mode {
@@ -100,7 +100,7 @@ button.graph-mode:focus {
 button.graph-mode.active {
 	border-bottom: 4px solid #00e096;
 	color: black;
-}
+} */
 
 /* INFO */
 

@@ -52,27 +52,25 @@ async function get_info(request, send_response) {
 
         // Get data for graphs 
         let graph_w_pts = [];
-        let graph_m_pts = [];
+        // let graph_m_pts = [];
 
         await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
             .then((result) => result.json())
             .then((result) => {
                 let time_series = result["Time Series (60min)"];
+                let last_five_days = {}
                 for (let time in time_series) {
+                    // Trim to last five days (excluding closing values for current day)
+                    if (Object.keys(last_five_days).length === 6) {
+                        graph_w_pts.pop(); // Remove single stray value
+                        break;
+                    }
                     let datetime = new Date(time.replace(' ', 'T'));
+                    last_five_days[datetime.getDate()] = null;
                     graph_w_pts.push({
                         x: datetime,
                         y: time_series[time]["4. close"]
                     });
-                }
-                // Remove points from partial earliest day if needed
-                for (let i = graph_w_pts.length - 1; i > 0; i--) {
-                    let open_time = new Date(graph_w_pts[i].x.getTime());
-                    open_time.setHours(10);
-                    if (graph_w_pts[i].x === open_time) {
-                        break;
-                    }
-                    graph_w_pts.pop();
                 }
                 console.log("Fetching intraday time series succeeded.");
             });
@@ -107,7 +105,7 @@ async function get_info(request, send_response) {
             market_cap: market_cap,
 
 			graph_w_pts: graph_w_pts,
-			graph_m_pts: graph_m_pts,
+			// graph_m_pts: graph_m_pts,
         };
 
         respond();
