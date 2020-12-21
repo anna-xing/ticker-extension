@@ -52,7 +52,6 @@ async function get_info(request, send_response) {
 
         // Get data for graphs 
         let graph_w_pts = [];
-        // let graph_m_pts = [];
 
         await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
             .then((result) => result.json())
@@ -105,7 +104,6 @@ async function get_info(request, send_response) {
             market_cap: market_cap,
 
 			graph_w_pts: graph_w_pts,
-			// graph_m_pts: graph_m_pts,
         };
 
         respond();

@@ -1,22 +1,3 @@
-// Attach event listeners to graph buttons
-// let graph_modes = document.querySelectorAll(".graph-mode");
-// graph_modes.forEach((graph_mode) => {
-//     graph_mode.addEventListener("click", () => {
-//         if (!graph_mode.classList.contains("active")) {
-//             document.querySelector(".graph-mode.active").classList.remove("active");
-//             graph_mode.classList.add("active");
-
-//             let active_id = graph_mode
-//                 .getAttribute("id")
-//                 .split("-")
-//                 .slice(0, -1)
-//                 .join("-");
-//             document.querySelector("canvas.active").classList.remove("active");
-//             document.querySelector("canvas#" + active_id).classList.add("active");
-//         }
-//     });
-// });
-
 // Prompt highlight.js content script to get ticker from page
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { cmd: "get_ticker" }, (response) => {
@@ -99,7 +80,7 @@ function update_stock_info(stock) {
         window["stock-name"].appendChild(name);
 
         // Update graphs
-        const graph_list = ["graph_w" /*, "graph_m" */];
+        const graph_list = ["graph_w"]; // Will possibly add more graphs later
         for (graph_type of graph_list) {
             let dom_id = graph_type.split("_").join("-");
             let new_graph = new Chart(dom_id, {

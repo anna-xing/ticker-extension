@@ -73,35 +73,6 @@ a {
 #percent-change::before { content: " ("; white-space: pre; }
 #percent-change::after { content: "%)"; }
 
-/* GRAPH */
-
-/* canvas:not(.active) { display: none !important; }
-canvas.active { display: block; }
-
-button.graph-mode {
-	border: none;
-	padding: .5em;
-	background-color: white;
-	border-bottom: 4px solid white;
-	color: #00db93;
-	font-weight: 600;
-}
-
-button.graph-mode:hover {
-	cursor: pointer;
-	border-bottom: 4px solid #00e096;
-
-}
-
-button.graph-mode:focus {
-	outline: none;
-}
-
-button.graph-mode.active {
-	border-bottom: 4px solid #00e096;
-	color: black;
-} */
-
 /* INFO */
 
 table {
