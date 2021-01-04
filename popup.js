@@ -82,6 +82,15 @@ function update_stock_info(stock) {
         const graph_list = ["graph_w"]; // Will possibly add more graphs later
         for (graph_type of graph_list) {
             let dom_id = graph_type.split("_").join("-");
+            // Remove graph from DOM if information was not returned for it 
+            // i.e. API limit has been reached
+            if (stock[graph_type + '_pts'].length == 0) {
+                let no_graph_msg = document.createElement("p");
+                let node = document.createTextNode("Graph data is temporarily unavailable due to API limits.");
+                no_graph_msg.appendChild(node);
+                window[dom_id].remove();
+                document.getElementById("graph").appendChild(no_graph_msg);
+            }
             let new_graph = new Chart(dom_id, {
                 type: 'line',
                 data: {
