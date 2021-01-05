@@ -1,11 +1,9 @@
 {
-	"name": "Ticker Extension",
+	"name": "Stock Ticker Lookup",
 	"version": "1.0",
-	"description": "Displays stock information for the highlighted ticker symbol.",
+	"description": "Conveniently view details about a highlighted stock ticker on a webpage.",
 	"permissions": [
-		"activeTab",
-		"storage",
-		"tabs"
+		"storage"
 	],
 	"icons": {
 		"16": "assets/icon.png",
