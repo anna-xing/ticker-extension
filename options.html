@@ -3,7 +3,29 @@
 	<head>
 		<link rel="stylesheet" href="styles.css">
 	</head>
-	<body>
+	<body id="options">
+		<h1>API Key Settings</h1>
+		<p>
+			This extension uses free Alpha Vantage APIs to retrieve stock data.
+			To use these APIs, you must claim your own API key(s).
+			Visit the 
+			<a href="https://www.alphavantage.co/support/#api-key" target="_blank" rel="noopener noreferrer">
+				Alpha Vantage website
+			</a>
+			to obtain them. 
+			Then fill in the fields below with your key(s), each of which should be a long string of numbers and letters.
+		</p>
+		<p>
+			Note that while 1 key is the minimum number required to use this extension, each key allows only a limited number of API calls per minute.
+			As such, generating 2 keys with 2 separate emails will allow the extension to return information more reliably.
+		</p>
+		<form id="api-keys" action="#" method="POST">
+			<div>
+				<input type="text" id="alphavantage-key1" name="alphavantage-key-1" placeholder="API Key 1" />
+				<input type="text" id="alphavantage-key2" name="alphavantage-key-2" placeholder="API Key 2 (optional)" />
+			</div>
+			<input type="submit" id="api-keys-save" class="save-btn" value="Save" disabled='true' />
+		</form>
 
 		<script src="options.js"></script>
 	</body>

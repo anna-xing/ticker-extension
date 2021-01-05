@@ -22,10 +22,20 @@ async function get_info(request, send_response) {
         // Nothing highlighted
         respond();
     } else {
-        let APIKEYS = request.api_keys;
+        function get_key() {
+            let num_keys = request.api_keys.length;
+            let curr_key_index = 0;
+            if (request.api_keys[curr_key_index]) {
+                let key = request.api_keys[curr_key_index];
+                curr_key_index = (curr_key_index + 1) % num_keys;
+                return key;
+            } else {
+                return request.api_keys[(curr_key_index + 1) % num_keys];
+            }
+        }
 
         let overview;
-        await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + APIKEYS[0])
+        await fetch("https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + get_key())
 			.then((result) => result.json())
             .then((result) => {
 				overview = result;
@@ -33,7 +43,7 @@ async function get_info(request, send_response) {
             });
             
         let global_quote;
-        await fetch("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=" + APIKEYS[0])
+        await fetch("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + ticker + "&apikey=" + get_key())
             .then((result) => result.json())
             .then((result) => {
 				global_quote = result['Global Quote'];
@@ -53,7 +63,7 @@ async function get_info(request, send_response) {
         // Get data for graphs 
         let graph_w_pts = [];
 
-        await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=60min&apikey=" + APIKEYS[1])
+        await fetch("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=60min&apikey=" + get_key())
             .then((result) => result.json())
             .then((result) => {
                 let time_series = result["Time Series (60min)"];

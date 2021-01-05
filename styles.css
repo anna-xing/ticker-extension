@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Inter:500,600,700,800");
 
 body {
-	font-family: Inter, Helvetica;
+	font-family: Inter, Roboto, sans-serif;
 	padding: 0 1em 1em;
 	width: 22em;
 	display: block;
@@ -24,6 +24,11 @@ body {
 
 a {
 	color: black;
+	display: inline-flex;
+}
+
+a::after {
+	content: "";
 }
 
 #stock-id {
@@ -75,6 +80,10 @@ a {
 
 /* INFO */
 
+#graph {
+	text-align: center;
+}
+
 table {
 	width: 100%;
 	margin: 1em 0 0;
@@ -105,3 +114,22 @@ th.all-time::before { content: "ALL-TIME "; white-space: pre; }
 .rmb::before, .yen::before { content: "¥"; }
 .pounds::before { content: "£"; }
 .percent::after { content: "%"; }
+
+/* OPTIONS */
+
+#options {
+	padding: 1em 2em;
+	width: 50em;
+	max-width: 80vw;
+	font-size: 1em;
+}
+
+#api-keys, #api-keys > div {
+	display: block;
+}
+
+input {
+	font-family: Inter, Roboto, sans-serif;
+	font-size: 1em;
+	margin: 1em 1em 0 0;
+}

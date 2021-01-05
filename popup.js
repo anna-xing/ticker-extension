@@ -10,8 +10,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     cmd: "get_info",
                     ticker: response.ticker,
                     api_keys: [
-                        ALPHAVANTAGE_API_KEY_1,
-                        ALPHAVANTAGE_API_KEY_2,
+                        chrome.storage.sync.get(['av_key1'], () => {}),
+                        chrome.storage.sync.get(['av_key2'], () => {}),
                     ],
                 },
                 (response) => {
