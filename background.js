@@ -1,5 +1,9 @@
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension installed.");
+    chrome.tabs.create(
+        {url: 'chrome-extension://' + chrome.runtime.id + '/options.html'},
+        () => { console.log("Opened options page."); }
+    );
 });
 
 // Sends response as object with all stock information, or false if none exists
@@ -23,14 +27,13 @@ async function get_info(request, send_response) {
         respond();
     } else {
         function get_key() {
-            let num_keys = request.api_keys.length;
             let curr_key_index = 0;
             if (request.api_keys[curr_key_index]) {
                 let key = request.api_keys[curr_key_index];
-                curr_key_index = (curr_key_index + 1) % num_keys;
+                curr_key_index = (curr_key_index + 1) % 2;
                 return key;
             } else {
-                return request.api_keys[(curr_key_index + 1) % num_keys];
+                return request.api_keys[(curr_key_index + 1) % 2];
             }
         }
 
@@ -40,6 +43,7 @@ async function get_info(request, send_response) {
             .then((result) => {
 				overview = result;
                 console.log("Fetching overview succeeded.");
+                console.log(get_key())
             });
             
         let global_quote;

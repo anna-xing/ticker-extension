@@ -124,10 +124,6 @@ th.all-time::before { content: "ALL-TIME "; white-space: pre; }
 	font-size: 1em;
 }
 
-#api-keys, #api-keys > div {
-	display: block;
-}
-
 input {
 	font-family: Inter, Roboto, sans-serif;
 	font-size: 1em;

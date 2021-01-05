@@ -5,13 +5,17 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             console.log("Highlight script finished processing.");
 
             // Prompt background script to get stock information from ticker
+            key1 = chrome.storage.sync.get(['av_key1'], () => {});
+            if (key1) { key1 = key1.trim(); };
+            key2 = chrome.storage.sync.get(['av_key2'], () => {});
+            if (key2) { key2 = key2.trim(); };
             chrome.runtime.sendMessage(
                 {
                     cmd: "get_info",
                     ticker: response.ticker,
                     api_keys: [
-                        chrome.storage.sync.get(['av_key1'], () => {}),
-                        chrome.storage.sync.get(['av_key2'], () => {}),
+                        key1,
+                        key2,
                     ],
                 },
                 (response) => {
