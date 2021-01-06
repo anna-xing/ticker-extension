@@ -1,6 +1,11 @@
 # Description
 
-A Google Chrome extension which displays stock information about a highlighted ticker symbol on the page. To use it, install it through the Chrome Web Store, use your cursor to highlight a ticker symbol on any webpage, and click on the extension in your toolbar to display the relevant stock information.
+A Google Chrome extension which displays stock information about a highlighted ticker symbol on the page. 
+
+To use it:
+* Install Stock Ticker Lookup through the Chrome Web Store.
+* Follow the instructions provided upon installation to obtain your Alpha Vantage API key(s).
+* Use your cursor to highlight a ticker symbol on any webpage and click on the extension in your toolbar to display the relevant stock information.
 
 # Tech Stack
 
