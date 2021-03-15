@@ -23,3 +23,9 @@ To use it (after it's approved for the Chrome Web Store):
 # Troubleshooting
 
 If the popup appears to be loading for a long time without returning results, check that you have inputted valid API keys in the extension options. The options page can be accessed by going to [chrome://extensions](chrome://extensions), clicking on the 'Details' button under Ticker Extension, and opening the 'Extension options' link near the bottom of the page.
+
+# Dev Notes
+Features to implement:
+* Make extension pop up upon highlight, not upon click -- pre-scan the page?
+* Graph different price timelines (1mo, 12mo, 1y, 5y)
+* Refactor to use a different API with higher limits?
